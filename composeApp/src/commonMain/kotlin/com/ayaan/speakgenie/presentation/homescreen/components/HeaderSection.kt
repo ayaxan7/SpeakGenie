@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -48,8 +47,8 @@ fun HeaderSection() {
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically, modifier = Modifier.background(
-                        Color.White.copy(alpha = 0.2f), RoundedCornerShape(20.dp)
-                    ).padding(horizontal = 12.dp, vertical = 6.dp)
+                    Color.White.copy(alpha = 0.2f), RoundedCornerShape(20.dp)
+                ).padding(horizontal = 12.dp, vertical = 6.dp)
             ) {
                 Text(
                     "💎", fontSize = 16.sp
@@ -62,17 +61,15 @@ fun HeaderSection() {
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            Surface(
-                modifier = Modifier.background(Color(0xFFFF7043), RoundedCornerShape(20.dp))
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-            ) {
-                Text(
-                    "PRO",
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.background(Color.Transparent)
-                )
-            }
+            Text(
+                "PRO",
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.background(
+                    Color(0xFFFF7043),
+                    RoundedCornerShape(20.dp)
+                ).padding(horizontal = 16.dp, vertical = 8.dp)
+            )
         }
     }
 }

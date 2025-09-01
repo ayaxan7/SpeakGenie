@@ -46,19 +46,21 @@ fun LessonItem(lesson: Lesson) {
             // Play button or status indicator
             Box(
                 modifier = Modifier.size(48.dp).background(
-                        when {
-                            lesson.isCompleted -> Color(0xFF4CAF50)
-                            lesson.isCurrent -> Color(0xFF4CAF50)
-                            else -> Color(0xFFE0E0E0)
-                        }, CircleShape
-                    ), contentAlignment = Alignment.Center
+                    when {
+                        lesson.isCompleted -> Color(0xFF4CAF50)
+                        lesson.isCurrent -> Color(0xFF4CAF50)
+                        else -> Color(0xFFE0E0E0)
+                    }, CircleShape
+                ), contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = Icons.Default.PlayArrow, contentDescription = null, tint = when {
-                        lesson.isCompleted || lesson.isCurrent -> Color.White
-                        else -> Color.Gray
-                    }
-                )
+                // Only show PlayArrow if the lesson is NOT completed
+                if (!lesson.isCompleted) {
+                    Icon(
+                        imageVector = Icons.Default.PlayArrow,
+                        contentDescription = null,
+                        tint = if (lesson.isCurrent) Color.White else Color.Gray
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.width(16.dp))
@@ -83,17 +85,15 @@ fun LessonItem(lesson: Lesson) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 if (lesson.isCurrent) {
-                    Surface(
-                        modifier = Modifier.background(Color(0xFF2E7D32), RoundedCornerShape(20.dp))
-                            .padding(horizontal = 16.dp, vertical = 6.dp)
-                    ) {
-                        Text(
-                            "Start",
-                            color = Color.White,
-                            fontWeight = FontWeight.Medium,
-                            modifier = Modifier.background(Color.Transparent)
-                        )
-                    }
+                    Text(
+                        "Start",
+                        color = Color.White,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.background(
+                            Color(0xFF2E7D32),
+                            CircleShape
+                        ).padding(horizontal = 16.dp, vertical = 6.dp)
+                    )
                 } else if (lesson.isCompleted) {
                     Box(
                         modifier = Modifier.size(24.dp).background(Color(0xFF4CAF50), CircleShape),
