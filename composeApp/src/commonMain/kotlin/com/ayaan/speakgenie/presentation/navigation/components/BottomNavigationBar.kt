@@ -4,16 +4,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-
+import speakgenie.composeapp.generated.resources.Home
+import speakgenie.composeapp.generated.resources.Learn
+import speakgenie.composeapp.generated.resources.Premium
+import speakgenie.composeapp.generated.resources.Res
+import speakgenie.composeapp.generated.resources.profile
 @Composable
 fun BottomNavigationBar() {
     Surface(
@@ -26,20 +26,24 @@ fun BottomNavigationBar() {
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             BottomNavItem(
-                icon = Icons.Default.Home,
-                label = "Home", isSelected = true
+                icon = Res.drawable.Home, // Your actual home icon drawable
+                label = "Home",
+                isSelected = true
             )
             BottomNavItem(
-                icon = Icons.Default.Star,
-                label = "Learn", isSelected = false
+                icon = Res.drawable.Learn, // Your actual learn icon drawable
+                label = "Learn",
+                isSelected = false
             )
             BottomNavItem(
-                icon = Icons.Default.Star,
-                label = "Membership", isSelected = false
+                icon = Res.drawable.Premium, // Your actual membership icon drawable
+                label = "Membership",
+                isSelected = false
             )
             BottomNavItem(
-                icon = Icons.Default.Person,
-                label = "Profile", isSelected = false
+                icon = Res.drawable.profile, // Your actual profile icon drawable
+                label = "Profile",
+                isSelected = false
             )
         }
     }
