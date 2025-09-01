@@ -20,7 +20,8 @@ fun BottomNavItem(
     icon: ImageVector, label: String, isSelected: Boolean
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(4.dp)
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(4.dp)
     ) {
         Icon(
             imageVector = icon,

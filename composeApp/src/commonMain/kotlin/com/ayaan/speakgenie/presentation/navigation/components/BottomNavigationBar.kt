@@ -17,24 +17,29 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun BottomNavigationBar() {
     Surface(
-        modifier = Modifier.fillMaxWidth(), color = Color.White, shadowElevation = 8.dp
+        modifier = Modifier.fillMaxWidth(),
+        color = Color.White, // Changed from Color.Black to Color.White
+        shadowElevation = 8.dp
     ) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             BottomNavItem(
-                icon = Icons.Default.Home, label = "Home", isSelected = true
+                icon = Icons.Default.Home,
+                label = "Home", isSelected = true
             )
             BottomNavItem(
-                icon = Icons.Default.Star, label = "Learn", isSelected = false
+                icon = Icons.Default.Star,
+                label = "Learn", isSelected = false
             )
             BottomNavItem(
-                icon = Icons.Default.Star, // Replace with membership icon
+                icon = Icons.Default.Star,
                 label = "Membership", isSelected = false
             )
             BottomNavItem(
-                icon = Icons.Default.Person, label = "Profile", isSelected = false
+                icon = Icons.Default.Person,
+                label = "Profile", isSelected = false
             )
         }
     }

@@ -37,11 +37,11 @@ import speakgenie.composeapp.generated.resources.boy
 @Composable
 fun HomeScreen(navController: NavController = rememberNavController()) {
     val lessons = listOf(
-        Lesson(1, "Introduction", true, false, false),
-        Lesson(2, "Basics of Greeting", false, true, false),
-        Lesson(3, "Roleplay", false, false, true),
-        Lesson(4, "Talk with AI Teacher", false, false, true),
-        Lesson(5, "Common Phrases", false, false, true)
+        Lesson(1, "Introduction", isCompleted = true, isCurrent = false, isLocked = false),
+        Lesson(2, "Basics of Greeting", isCompleted = false, isCurrent = true, isLocked = false),
+        Lesson(3, "Roleplay", isCompleted = false, isCurrent = false, isLocked = true),
+        Lesson(4, "Talk with AI Teacher", isCompleted = false, isCurrent = false, isLocked = true),
+        Lesson(5, "Common Phrases", isCompleted = false, isCurrent = false, isLocked = true)
     )
 
     Column(
