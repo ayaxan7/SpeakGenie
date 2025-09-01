@@ -98,12 +98,8 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
                         LessonItem(lesson = lesson)
                     }
                 }
-
-                Spacer(modifier = Modifier.height(80.dp))
+                BottomNavigationBar()
             }
         }
-
-        // Bottom Navigation
-        BottomNavigationBar()
     }
 }
