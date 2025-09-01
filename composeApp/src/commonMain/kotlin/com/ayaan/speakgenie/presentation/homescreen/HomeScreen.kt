@@ -1,5 +1,6 @@
 package com.ayaan.speakgenie.presentation.homescreen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,10 +15,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,10 +30,12 @@ import com.ayaan.speakgenie.presentation.homescreen.components.HeaderSection
 import com.ayaan.speakgenie.presentation.homescreen.components.LessonItem
 import com.ayaan.speakgenie.presentation.homescreen.components.RecentQuizCard
 import com.ayaan.speakgenie.presentation.navigation.components.BottomNavigationBar
-
+import org.jetbrains.compose.resources.painterResource
+import speakgenie.composeapp.generated.resources.Res
+import speakgenie.composeapp.generated.resources.boy
 
 @Composable
-fun HomeScreen(navController: NavController= rememberNavController()) {
+fun HomeScreen(navController: NavController = rememberNavController()) {
     val lessons = listOf(
         Lesson(1, "Introduction", true, false, false),
         Lesson(2, "Basics of Greeting", false, true, false),
@@ -44,8 +48,7 @@ fun HomeScreen(navController: NavController= rememberNavController()) {
         modifier = Modifier.fillMaxSize().background(
             brush = Brush.verticalGradient(
                 colors = listOf(
-                    Color(0xFF4CAF50),
-                    Color(0xFF2E7D32)
+                    Color(0xFF4CAF50), Color(0xFF2E7D32)
                 )
             )
         )
@@ -65,16 +68,14 @@ fun HomeScreen(navController: NavController= rememberNavController()) {
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
-                // Main Image Placeholder
-                Box(
-                    modifier = Modifier.fillMaxWidth().height(180.dp).background(
-                        Color(0xFFE3F2FD), RoundedCornerShape(16.dp)
-                    ), contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        "Character Image Placeholder", color = Color.Gray, fontSize = 14.sp
-                    )
-                }
+                // Main Image - Boy image expanded to fill the whole box
+                Image(
+                    painter = painterResource(Res.drawable.boy),
+                    contentDescription = "Main Illustration",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxWidth().height(180.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                )
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -106,7 +107,3 @@ fun HomeScreen(navController: NavController= rememberNavController()) {
         BottomNavigationBar()
     }
 }
-
-
-
-
