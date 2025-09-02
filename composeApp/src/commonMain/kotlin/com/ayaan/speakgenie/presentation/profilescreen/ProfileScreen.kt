@@ -3,10 +3,19 @@ package com.ayaan.speakgenie.presentation.profilescreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,10 +32,9 @@ import androidx.navigation.compose.rememberNavController
 import com.ayaan.speakgenie.presentation.navigation.components.BottomNavigationBar
 import com.ayaan.speakgenie.presentation.profilescreen.components.ProfileOptionCard
 import com.ayaan.speakgenie.presentation.profilescreen.components.ProfileStatCard
-import org.jetbrains.compose.resources.DrawableResource
+import com.ayaan.speakgenie.presentation.profilescreen.data.ProfileOption
 import org.jetbrains.compose.resources.painterResource
 import speakgenie.composeapp.generated.resources.Accuracy
-import speakgenie.composeapp.generated.resources.Learn
 import speakgenie.composeapp.generated.resources.Res
 import speakgenie.composeapp.generated.resources.Time
 import speakgenie.composeapp.generated.resources.XPPoints
@@ -44,15 +52,15 @@ fun ProfileScreen(navController: NavController = rememberNavController()) {
     Scaffold(
         topBar = {
             Box(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                modifier = Modifier.fillMaxWidth().padding(16.dp).background(Color.White),
                 contentAlignment = Alignment.TopEnd
             ) {
                 Image(
                     painter = painterResource(Res.drawable.menu),
                     contentDescription = "Menu Avatar",
                     modifier = Modifier.size(36.dp).clip(CircleShape).clickable {
-                            // Handle profile image click
-                        },
+                        // Handle profile image click
+                    },
                     contentScale = ContentScale.Crop
                 )
             }
@@ -61,8 +69,7 @@ fun ProfileScreen(navController: NavController = rememberNavController()) {
     ) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding).fillMaxSize()
-                .verticalScroll(rememberScrollState()).background(Color.White),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .background(Color.White), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -92,8 +99,20 @@ fun ProfileScreen(navController: NavController = rememberNavController()) {
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                ProfileStatCard(icon=Res.drawable.Accuracy,"79%", "Accuracy", Color(0xFFDAF1FF), Color(0xFF2196F3))
-                ProfileStatCard(icon=Res.drawable.lessonIcon,"7", "Lesson", Color(0xFFE9FCEF), Color(0xFF4CAF50))
+                ProfileStatCard(
+                    icon = Res.drawable.Accuracy,
+                    "79%",
+                    "Accuracy",
+                    Color(0xFFDAF1FF),
+                    Color(0xFF2196F3)
+                )
+                ProfileStatCard(
+                    icon = Res.drawable.lessonIcon,
+                    "7",
+                    "Lesson",
+                    Color(0xFFE9FCEF),
+                    Color(0xFF4CAF50)
+                )
             }
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -102,30 +121,55 @@ fun ProfileScreen(navController: NavController = rememberNavController()) {
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                ProfileStatCard(icon=Res.drawable.Time,"45 mins", "Time Spent", Color(0xFFFFEBEE), Color(0xFFE91E63))
-                ProfileStatCard(icon=Res.drawable.XPPoints,"45", "XP Points", Color(0xFFFFF8E1), Color(0xFFFF9800))
+                ProfileStatCard(
+                    icon = Res.drawable.Time,
+                    "45 mins",
+                    "Time Spent",
+                    Color(0xFFFFEBEE),
+                    Color(0xFFE91E63)
+                )
+                ProfileStatCard(
+                    icon = Res.drawable.XPPoints,
+                    "45",
+                    "XP Points",
+                    Color(0xFFFFF8E1),
+                    Color(0xFFFF9800)
+                )
             }
 
             Spacer(modifier = Modifier.height(20.dp))
-            // Options Section
-            ProfileOptionCard(
-                "Manage Membership",
-                "Account Status: Premium",
-                Res.drawable.profileCrown,
-                Color(0xFFFFA726)
+            val options = listOf(
+                ProfileOption(
+                    "Manage Membership",
+                    "Account Status: Premium",
+                    Res.drawable.profileCrown,
+                    Color(0xFFFFA726)
+                ),
+                ProfileOption(
+                    "Student Report",
+                    "", Res.drawable.trophy,
+                    Color(0xFFFFC107)
+                ),
+                ProfileOption(
+                    "Leaderboard",
+                    "",
+                    Res.drawable.dice,
+                    Color(0xFF9E9E9E)
+                ),
+                ProfileOption("Personal Information", "", Res.drawable.smile, Color(0xFFFFC107)),
+                ProfileOption("Invite Friends", "", Res.drawable.gift, Color(0xFFE91E63))
             )
-            ProfileOptionCard("Student Report", "", Res.drawable.trophy, Color(0xFFFFC107))
-            ProfileOptionCard("Leaderboard", "", Res.drawable.dice, Color(0xFF9E9E9E))
-            ProfileOptionCard("Personal Information", "", Res.drawable.smile, Color(0xFFFFC107))
-            ProfileOptionCard("Invite Friends", "", Res.drawable.gift, Color(0xFFE91E63))
+            // Options Section
+            LazyColumn {
+                items(options) { option ->
+                    ProfileOptionCard(
+                        title = option.title,
+                        subtitle = option.subtitle,
+                        icon = option.icon,
+                        iconColor = option.iconColor
+                    )
+                }
+            }
         }
     }
 }
-data class ProfileOption(
-    val title: String,
-    val subtitle: String,
-    val icon: DrawableResource,
-    val iconColor: Color
-)
-
-
