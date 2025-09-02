@@ -1,4 +1,4 @@
-package com.ayaan.speakgenie.presentation.profilescreen.data
+package com.ayaan.speakgenie.data
 
 import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.resources.DrawableResource

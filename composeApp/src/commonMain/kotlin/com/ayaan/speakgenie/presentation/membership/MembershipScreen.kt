@@ -25,7 +25,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ayaan.speakgenie.presentation.membership.components.FeatureCard
 import com.ayaan.speakgenie.presentation.membership.components.MembershipSection
-import com.ayaan.speakgenie.presentation.membership.data.FeatureItem
+import com.ayaan.speakgenie.data.FeatureItem
 import com.ayaan.speakgenie.presentation.navigation.components.BottomNavigationBar
 import org.jetbrains.compose.resources.painterResource
 import speakgenie.composeapp.generated.resources.Res

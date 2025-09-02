@@ -32,7 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import com.ayaan.speakgenie.presentation.navigation.components.BottomNavigationBar
 import com.ayaan.speakgenie.presentation.profilescreen.components.ProfileOptionCard
 import com.ayaan.speakgenie.presentation.profilescreen.components.ProfileStatCard
-import com.ayaan.speakgenie.presentation.profilescreen.data.ProfileOption
+import com.ayaan.speakgenie.data.ProfileOption
 import org.jetbrains.compose.resources.painterResource
 import speakgenie.composeapp.generated.resources.Accuracy
 import speakgenie.composeapp.generated.resources.Res
