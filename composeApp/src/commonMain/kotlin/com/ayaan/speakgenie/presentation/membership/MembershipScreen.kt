@@ -46,10 +46,16 @@ import com.ayaan.speakgenie.presentation.homescreen.components.HeaderSection
 import com.ayaan.speakgenie.presentation.homescreen.components.LessonItem
 import com.ayaan.speakgenie.presentation.homescreen.components.RecentQuizCard
 import com.ayaan.speakgenie.presentation.navigation.components.BottomNavigationBar
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import speakgenie.composeapp.generated.resources.Res
 import speakgenie.composeapp.generated.resources.boy
 import speakgenie.composeapp.generated.resources.crown
+import speakgenie.composeapp.generated.resources.it1
+import speakgenie.composeapp.generated.resources.it2
+import speakgenie.composeapp.generated.resources.it3
+import speakgenie.composeapp.generated.resources.it4
+import speakgenie.composeapp.generated.resources.it5
 import speakgenie.composeapp.generated.resources.list
 
 @Composable
@@ -64,7 +70,7 @@ fun MembershipScreen(navController: NavController = rememberNavController()) {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .background(Color(0xFF00B894))
-                .padding(innerPadding) // ✅ Important so content doesn't overlap with nav bar
+                .padding(innerPadding)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -99,39 +105,36 @@ fun MembershipScreen(navController: NavController = rememberNavController()) {
                 color = Color.White,
                 modifier = Modifier.padding(top = 2.dp, bottom = 16.dp)
             )
-
-            // Features list
-            val features = listOf(
-                "24/7 Personal AI Tutor",
-                "Personalized Learning Journey",
-                "Unlimited Lessons & Practice",
-                "Master 100+ Real-Life Scenarios",
-                "AI-Powered Feedback for Fluency"
-            )
-            val icons = listOf(
-                Res.drawable.list,
-                Res.drawable.list,
-                Res.drawable.list,
-                Res.drawable.list,
-                Res.drawable.list
+            val icons: Map<DrawableResource, String> = mapOf(
+                Res.drawable.it1 to "24/7 Personal AI Tutor",
+                Res.drawable.it2 to "Personalized Learning Journey",
+                Res.drawable.it3 to "Unlimited Lessons & Practice",
+                Res.drawable.it4 to "Master 100+ Real-Life Scenarios",
+                Res.drawable.it5 to "AI-Powered Feedback for Fluency"
             )
 
-            features.forEachIndexed { index, feature ->
+            icons.forEach { (icon, text) ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        painter = painterResource(resource = icons[index]),
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(24.dp)
+//                    Icon(
+//                        painter = painterResource(icon),
+//                        contentDescription = text,
+//                        tint = Color.White,
+//                        modifier = Modifier.size(24.dp)
+//                    )
+                    Image(
+                        painter = painterResource(icon),
+                        contentDescription = "Bullet",
+                        modifier = Modifier.size(20.dp),
+                        contentScale = ContentScale.Fit
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = feature,
+                        text = text,
                         fontSize = 14.sp,
                         color = Color.White
                     )
