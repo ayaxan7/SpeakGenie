@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -48,6 +49,8 @@ import speakgenie.composeapp.generated.resources.it3
 import speakgenie.composeapp.generated.resources.it4
 import speakgenie.composeapp.generated.resources.it5
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
+
 @Composable
 fun MembershipScreen(navController: NavController = rememberNavController()) {
     Scaffold(
@@ -58,15 +61,22 @@ fun MembershipScreen(navController: NavController = rememberNavController()) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFF11D677))
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color(0xFF11D677),
+                            Color(0xFF139F5C)
+                        )
+                    )
+                )
                 .padding(innerPadding)
         ) {
             // Scrollable green content
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
-                    .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 200.dp), // leave space for white section
+//                    .verticalScroll(rememberScrollState())
+                    .padding(start = 16.dp, end = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
@@ -95,10 +105,9 @@ fun MembershipScreen(navController: NavController = rememberNavController()) {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 6.dp)
-                        .height(250.dp), // 👈 control height of scrollable area
+                        .fillMaxHeight(),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.Start
                 ) {
                     items(features) { feature ->
                         Box(
@@ -107,12 +116,12 @@ fun MembershipScreen(navController: NavController = rememberNavController()) {
                                 .shadow(6.dp, RoundedCornerShape(12.dp), clip = false)
                                 .clip(RoundedCornerShape(12.dp))
                                 .background(Color(0xFF0DBA67))
-                                .padding(vertical = 12.dp, horizontal = 16.dp),
-                            contentAlignment = Alignment.Center
+                                .padding(vertical = 12.dp, horizontal = 25.dp),
+                            contentAlignment = Alignment.CenterStart
                         ) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
+                                horizontalArrangement = Arrangement.Start
                             ) {
                                 Image(
                                     painter = painterResource(feature.icon),
@@ -120,19 +129,18 @@ fun MembershipScreen(navController: NavController = rememberNavController()) {
                                     modifier = Modifier.size(22.dp),
                                     contentScale = ContentScale.Fit
                                 )
-                                Spacer(modifier = Modifier.width(12.dp))
+                                Spacer(modifier = Modifier.width(8.dp))
                                 Text(
                                     text = feature.text,
                                     fontSize = 14.sp,
                                     color = Color.White,
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Start
                                 )
                             }
                         }
                     }
                 }
             }
-
             // White membership section pinned to bottom
             Box(
                 modifier = Modifier

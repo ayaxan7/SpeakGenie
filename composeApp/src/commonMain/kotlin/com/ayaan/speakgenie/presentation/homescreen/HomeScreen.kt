@@ -63,7 +63,7 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            Color(0xFF4CAF50),
+                            Color(0xFF11D677),
                             Color(0xFF2E7D32)
                         )
                     )
