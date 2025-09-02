@@ -25,13 +25,14 @@ fun HeaderSection() {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        Row {
+            Text(
+                "☀️", fontSize = 35.sp
+            )
         Column {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    "☀️", fontSize = 20.sp
-                )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     "Good Morning", color = Color.White, fontSize = 16.sp
@@ -41,7 +42,7 @@ fun HeaderSection() {
                 "Ayesha", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold
             )
         }
-
+    }
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
