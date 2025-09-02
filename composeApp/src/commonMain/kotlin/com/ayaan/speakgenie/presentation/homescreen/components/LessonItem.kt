@@ -57,32 +57,6 @@ fun LessonItem(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Status Icon
-//                Box(
-//                    modifier = Modifier.size(40.dp).clip(CircleShape).background(
-//                        when {
-//                            lesson.isCompleted -> Color(0xFFDDF6EA)
-//                            lesson.isCurrent -> Color(0xFF4CAF50)
-//                            lesson.isLocked -> Color.Gray
-//                            else -> Color.LightGray
-//                        }
-//                    ), contentAlignment = Alignment.Center
-//                ) {
-//                    when {
-//                        lesson.isCompleted -> {}
-//                        lesson.isLocked -> {
-//                            Image(
-//                                painter = painterResource(Res.drawable.lockedplay),
-//                                contentDescription = "Locked",
-//                                modifier = Modifier.size(20.dp),
-//                            )
-//                        }
-//
-//                        else -> {
-//
-//                        }
-//                    }
-//                }
                 if(!lesson.isCompleted && !lesson.isLocked) {
                     Image(
                         painter = painterResource(Res.drawable.OngoingImage),
