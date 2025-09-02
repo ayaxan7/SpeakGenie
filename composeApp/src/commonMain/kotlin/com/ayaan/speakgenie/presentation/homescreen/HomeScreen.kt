@@ -88,7 +88,6 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
                 Column(
                     modifier = Modifier.padding(16.dp)
                 ) {
-                    // Main Image - Boy image expanded to fill the whole box
                     Image(
                         painter = painterResource(Res.drawable.boy),
                         contentDescription = "Main Illustration",
