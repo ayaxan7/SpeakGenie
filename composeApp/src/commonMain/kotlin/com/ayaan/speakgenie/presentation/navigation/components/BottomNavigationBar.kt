@@ -4,8 +4,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -13,12 +19,14 @@ import speakgenie.composeapp.generated.resources.Home
 import speakgenie.composeapp.generated.resources.Learn
 import speakgenie.composeapp.generated.resources.Premium
 import speakgenie.composeapp.generated.resources.Res
-import speakgenie.composeapp.generated.resources.profile
+
 @Composable
 fun BottomNavigationBar() {
+    var selectedIndex by remember { mutableStateOf(0) }
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = Color.White, // Changed from Color.Black to Color.White
+        color = Color.White,
         shadowElevation = 8.dp
     ) {
         Row(
@@ -26,24 +34,28 @@ fun BottomNavigationBar() {
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             BottomNavItem(
-                icon = Res.drawable.Home, // Your actual home icon drawable
+                icon = Res.drawable.Home,
                 label = "Home",
-                isSelected = true
+                isSelected = selectedIndex == 0,
+                onClick = { selectedIndex = 0 }
             )
             BottomNavItem(
-                icon = Res.drawable.Learn, // Your actual learn icon drawable
+                icon = Res.drawable.Learn,
                 label = "Learn",
-                isSelected = false
+                isSelected = selectedIndex == 1,
+                onClick = { selectedIndex = 1 }
             )
             BottomNavItem(
-                icon = Res.drawable.Premium, // Your actual membership icon drawable
+                icon = Res.drawable.Premium,
                 label = "Membership",
-                isSelected = false
+                isSelected = selectedIndex == 2,
+                onClick = { selectedIndex = 2 }
             )
             BottomNavItem(
-                icon = Res.drawable.profile, // Your actual profile icon drawable
+                icon = Icons.Default.Person,
                 label = "Profile",
-                isSelected = false
+                isSelected = selectedIndex == 3,
+                onClick = { selectedIndex = 3 }
             )
         }
     }

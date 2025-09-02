@@ -1,108 +1,160 @@
 package com.ayaan.speakgenie.presentation.homescreen.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ayaan.speakgenie.data.Lesson
+import org.jetbrains.compose.resources.painterResource
+import speakgenie.composeapp.generated.resources.Res
+import speakgenie.composeapp.generated.resources.boy
+import speakgenie.composeapp.generated.resources.lockedplay
+
+//import speakgenie.composeapp.generated.resources.ic_check
+//import speakgenie.composeapp.generated.resources.ic_lock
+//import speakgenie.composeapp.generated.resources.ic_play
 
 @Composable
-fun LessonItem(lesson: Lesson) {
+fun LessonItem(
+    lesson: Lesson,
+    selectedLessonId: Int? = null, // Add parameter to track selected lesson
+    onClick: (Int) -> Unit = {}
+) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(
+        modifier = Modifier.fillMaxWidth().clickable {
+            if (!lesson.isLocked) {
+                onClick(lesson.id)
+            }
+        }, colors = CardDefaults.cardColors(
             containerColor = if (lesson.isCurrent) Color(0xFFE8F5E8) else Color.White
-        ),
-        border = if (lesson.isCurrent) {
+        ), border = if (lesson.isCurrent) {
             androidx.compose.foundation.BorderStroke(2.dp, Color(0xFF4CAF50))
-        } else null
+        } else null, elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            // Play button or status indicator
-            Box(
-                modifier = Modifier.size(48.dp).background(
-                    when {
-                        lesson.isCompleted -> Color(0xFF4CAF50)
-                        lesson.isCurrent -> Color(0xFF4CAF50)
-                        else -> Color(0xFFE0E0E0)
-                    }, CircleShape
-                ), contentAlignment = Alignment.Center
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                // Only show PlayArrow if the lesson is NOT completed
-                if (!lesson.isCompleted) {
-                    Icon(
-                        imageVector = Icons.Default.PlayArrow,
-                        contentDescription = null,
-                        tint = if (lesson.isCurrent) Color.White else Color.Gray
+                // Status Icon
+                Box(
+                    modifier = Modifier.size(40.dp).clip(CircleShape).background(
+                        when {
+                            lesson.isCompleted -> Color(0xFF4CAF50)
+                            lesson.isCurrent -> Color(0xFF4CAF50)
+                            lesson.isLocked -> Color.Gray
+                            else -> Color.LightGray
+                        }
+                    ), contentAlignment = Alignment.Center
+                ) {
+                    when {
+                        lesson.isCompleted -> {
+                            Icon(
+                                painter = painterResource(Res.drawable.boy),
+                                contentDescription = "Completed",
+                                tint = Color.White,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+
+                        lesson.isLocked -> {
+                            Icon(
+                                painter = painterResource(Res.drawable.lockedplay),
+                                contentDescription = "Locked",
+                                tint = Color.White,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+
+                        else -> {
+                            Text(
+                                text = lesson.id.toString(),
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                // Lesson Info
+                Column {
+                    Text(
+                        text = lesson.title,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.Black
+                    )
+                    Text(
+                        text = when {
+                            lesson.isCompleted -> "Completed"
+                            lesson.isCurrent -> "In Progress"
+                            lesson.isLocked -> "Locked"
+                            else -> "Not Started"
+                        }, fontSize = 12.sp, color = Color.Gray
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
-
-            // Lesson content
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    "Lesson ${lesson.id}", fontSize = 14.sp, color = Color.Gray
-                )
-                Text(
-                    lesson.title,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = if (lesson.isLocked) Color.Gray else Color.Black
-                )
-            }
-
-            // Right side indicators
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (lesson.isCurrent) {
-                    Text(
-                        "Start",
-                        color = Color.White,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.background(
-                            Color(0xFF2E7D32),
-                            CircleShape
-                        ).padding(horizontal = 16.dp, vertical = 6.dp)
+            // Action Button - Only appears when this lesson is selected and not locked
+            if (!lesson.isLocked && selectedLessonId == lesson.id) {
+                Button(
+                    onClick = { onClick(lesson.id) },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = when {
+                            lesson.isCompleted -> Color(0xFF2E7D32) // Dark green for completed
+                            lesson.isCurrent -> Color(0xFF4CAF50)   // Regular green for current
+                            else -> Color(0xFF66BB6A)               // Light green for not started
+                        }
+                    ),
+                    modifier = Modifier.height(36.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(Res.drawable.boy),
+                        contentDescription = when {
+                            lesson.isCompleted -> "Restart"
+                            else -> "Start"
+                        },
+                        tint = Color.White,
+                        modifier = Modifier.size(16.dp)
                     )
-                } else if (lesson.isCompleted) {
-                    Box(
-                        modifier = Modifier.size(24.dp).background(Color(0xFF4CAF50), CircleShape),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            "✓", color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold
-                        )
-                    }
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = when {
+                            lesson.isCompleted -> "RESTART"
+                            else -> "START"
+                        },
+                        color = Color.White,
+                        fontSize = 14.sp
+                    )
                 }
             }
         }

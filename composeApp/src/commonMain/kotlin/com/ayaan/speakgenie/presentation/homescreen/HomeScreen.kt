@@ -15,6 +15,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -36,12 +40,15 @@ import speakgenie.composeapp.generated.resources.boy
 
 @Composable
 fun HomeScreen(navController: NavController = rememberNavController()) {
+    // State to track which lesson is currently selected
+    var selectedLessonId by remember { mutableStateOf(2) }
+
     val lessons = listOf(
-        Lesson(1, "Introduction", isCompleted = true, isCurrent = false, isLocked = false),
-        Lesson(2, "Basics of Greeting", isCompleted = false, isCurrent = true, isLocked = false),
-        Lesson(3, "Roleplay", isCompleted = false, isCurrent = false, isLocked = true),
-        Lesson(4, "Talk with AI Teacher", isCompleted = false, isCurrent = false, isLocked = true),
-        Lesson(5, "Common Phrases", isCompleted = false, isCurrent = false, isLocked = true)
+        Lesson(1, "Introduction", isCompleted = true, isCurrent = selectedLessonId == 1, isLocked = false),
+        Lesson(2, "Basics of Greeting", isCompleted = false, isCurrent = selectedLessonId == 2, isLocked = false),
+        Lesson(3, "Roleplay", isCompleted = false, isCurrent = selectedLessonId == 3, isLocked = true),
+        Lesson(4, "Talk with AI Teacher", isCompleted = false, isCurrent = selectedLessonId == 4, isLocked = true),
+        Lesson(5, "Common Phrases", isCompleted = false, isCurrent = selectedLessonId == 5, isLocked = true)
     )
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -96,7 +103,13 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
                         modifier = Modifier.weight(1f)
                     ) {
                         items(lessons) { lesson ->
-                            LessonItem(lesson = lesson)
+                            LessonItem(
+                                lesson = lesson,
+                                selectedLessonId = selectedLessonId,
+                                onClick = { lessonId ->
+                                    selectedLessonId = lessonId
+                                }
+                            )
                         }
                     }
                 }
