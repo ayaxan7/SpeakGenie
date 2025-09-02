@@ -57,17 +57,23 @@ fun RecentQuizCard() {
 
             // Progress Circle
             Box(
-                contentAlignment = Alignment.Center, modifier = Modifier.size(60.dp)
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .size(60.dp)
+                    .background(Color.White, shape = CircleShape)
             ) {
                 CircularProgressIndicator(
                     progress = { 0.54f },
                     modifier = Modifier.size(60.dp),
                     color = Color(0xFFFF9800),
                     strokeWidth = 6.dp,
-                    trackColor = Color.White
+                    trackColor = Color.LightGray
                 )
                 Text(
-                    "54%", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFFFF9800)
+                    "54%",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFFFF9800)
                 )
             }
         }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -32,22 +33,31 @@ import speakgenie.composeapp.generated.resources.rightArrow
 @Composable
 fun ProfileOptionCard(title: String, subtitle: String, icon: DrawableResource, iconColor: Color) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)
-            .clip(RoundedCornerShape(12.dp)).background(Color.White).padding(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .border(
+                width = 1.dp,
+                color = Color.Gray, // light gray border
+                shape = RoundedCornerShape(12.dp)
+            )
+            .background(Color.White)
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
         Box(
             modifier = Modifier
                 .size(40.dp)
-                .clip(CircleShape)
-                .background(iconColor.copy(alpha = 0.2f)),
+                .clip(CircleShape),
+//                .background(iconColor.copy(alpha = 0.2f)),
             contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = painterResource(icon),
                 contentDescription = null,
-                modifier = Modifier.size(22.dp)
+                modifier = Modifier.size(40.dp)
             )
         }
         Spacer(modifier = Modifier.width(16.dp))
@@ -58,6 +68,14 @@ fun ProfileOptionCard(title: String, subtitle: String, icon: DrawableResource, i
                 fontWeight = FontWeight.Medium,
                 color = Color.Black
             )
+            if(subtitle.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = subtitle,
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+            }
         }
         Image(
             painter = painterResource(Res.drawable.rightArrow),
