@@ -2,14 +2,11 @@ package com.ayaan.speakgenie.presentation.profilescreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,39 +20,55 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import speakgenie.composeapp.generated.resources.Res
 import com.ayaan.speakgenie.presentation.navigation.components.BottomNavigationBar
+import com.ayaan.speakgenie.presentation.profilescreen.components.ProfileOptionCard
+import com.ayaan.speakgenie.presentation.profilescreen.components.ProfileStatCard
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import speakgenie.composeapp.generated.resources.Accuracy
+import speakgenie.composeapp.generated.resources.Learn
+import speakgenie.composeapp.generated.resources.Res
+import speakgenie.composeapp.generated.resources.Time
+import speakgenie.composeapp.generated.resources.XPPoints
 import speakgenie.composeapp.generated.resources.avatar
 import speakgenie.composeapp.generated.resources.dice
 import speakgenie.composeapp.generated.resources.gift
+import speakgenie.composeapp.generated.resources.lessonIcon
+import speakgenie.composeapp.generated.resources.menu
 import speakgenie.composeapp.generated.resources.profileCrown
-import speakgenie.composeapp.generated.resources.rightArrow
 import speakgenie.composeapp.generated.resources.smile
 import speakgenie.composeapp.generated.resources.trophy
 
 @Composable
-fun ProfileScreen(navController: NavController= rememberNavController()) {
+fun ProfileScreen(navController: NavController = rememberNavController()) {
     Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
+        topBar = {
+            Box(
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                contentAlignment = Alignment.TopEnd
+            ) {
+                Image(
+                    painter = painterResource(Res.drawable.menu),
+                    contentDescription = "Menu Avatar",
+                    modifier = Modifier.size(36.dp).clip(CircleShape).clickable {
+                            // Handle profile image click
+                        },
+                    contentScale = ContentScale.Crop
+                )
+            }
+        },
+        bottomBar = { BottomNavigationBar(navController) },
     ) { innerPadding ->
         Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .background(Color.White),
+            modifier = Modifier.padding(innerPadding).fillMaxSize()
+                .verticalScroll(rememberScrollState()).background(Color.White),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(20.dp))
 
             // Profile Image
             Box(
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFFFFE4EC)),
+                modifier = Modifier.size(100.dp).clip(CircleShape).background(Color(0xFFFFE4EC)),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
@@ -69,41 +82,38 @@ fun ProfileScreen(navController: NavController= rememberNavController()) {
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = "Ayesha",
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
+                text = "Ayesha", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color.Black
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
             // Stats Section
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                ProfileStatCard("79%", "Accuracy", Color(0xFFDAF1FF), Color(0xFF2196F3))
-                ProfileStatCard("7", "Lesson", Color(0xFFE9FCEF), Color(0xFF4CAF50))
+                ProfileStatCard(icon=Res.drawable.Accuracy,"79%", "Accuracy", Color(0xFFDAF1FF), Color(0xFF2196F3))
+                ProfileStatCard(icon=Res.drawable.lessonIcon,"7", "Lesson", Color(0xFFE9FCEF), Color(0xFF4CAF50))
             }
 
             Spacer(modifier = Modifier.height(12.dp))
 
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                ProfileStatCard("45 mins", "Time Spent", Color(0xFFFFEBEE), Color(0xFFE91E63))
-                ProfileStatCard("45", "XP Points", Color(0xFFFFF8E1), Color(0xFFFF9800))
+                ProfileStatCard(icon=Res.drawable.Time,"45 mins", "Time Spent", Color(0xFFFFEBEE), Color(0xFFE91E63))
+                ProfileStatCard(icon=Res.drawable.XPPoints,"45", "XP Points", Color(0xFFFFF8E1), Color(0xFFFF9800))
             }
 
             Spacer(modifier = Modifier.height(20.dp))
-
             // Options Section
-            ProfileOptionCard("Manage Membership", "Account Status: Premium", Res.drawable.profileCrown, Color(0xFFFFA726))
+            ProfileOptionCard(
+                "Manage Membership",
+                "Account Status: Premium",
+                Res.drawable.profileCrown,
+                Color(0xFFFFA726)
+            )
             ProfileOptionCard("Student Report", "", Res.drawable.trophy, Color(0xFFFFC107))
             ProfileOptionCard("Leaderboard", "", Res.drawable.dice, Color(0xFF9E9E9E))
             ProfileOptionCard("Personal Information", "", Res.drawable.smile, Color(0xFFFFC107))
@@ -111,70 +121,11 @@ fun ProfileScreen(navController: NavController= rememberNavController()) {
         }
     }
 }
-
-@Composable
-fun ProfileStatCard(value: String, label: String, bgColor: Color, textColor: Color) {
-    Card(
-        modifier = Modifier
-            .width(160.dp)
-            .height(80.dp),
-        colors = CardDefaults.cardColors(containerColor = bgColor),
-        shape = RoundedCornerShape(12.dp)
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize().padding(12.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = textColor)
-            Text(text = label, fontSize = 14.sp, color = textColor)
-        }
-    }
-}
-
-@Composable
-fun ProfileOptionCard(title: String, subtitle: String, icon: DrawableResource, iconColor: Color) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(Color.White)
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
-    ) {
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(iconColor.copy(alpha = 0.2f)),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                painter = painterResource(icon),
-                contentDescription = null,
-                tint = iconColor,
-                modifier = Modifier.size(22.dp)
-            )
-        }
+data class ProfileOption(
+    val title: String,
+    val subtitle: String,
+    val icon: DrawableResource,
+    val iconColor: Color
+)
 
 
-        Spacer(modifier = Modifier.width(16.dp))
-
-
-        Column(modifier = Modifier.weight(1f)) {
-            Text(text = title, fontSize = 16.sp, fontWeight = FontWeight.Medium, color = Color.Black)
-            if (subtitle.isNotEmpty()) {
-                Text(text = subtitle, fontSize = 12.sp, color = Color.Gray)
-            }
-        }
-
-
-        Icon(
-            painter = painterResource(Res.drawable.rightArrow),
-            contentDescription = null,
-            tint = Color.Gray
-        )
-    }
-}
