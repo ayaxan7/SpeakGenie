@@ -9,20 +9,22 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.ayaan.speakgenie.presentation.navigation.Screen
 import speakgenie.composeapp.generated.resources.Home
 import speakgenie.composeapp.generated.resources.Learn
 import speakgenie.composeapp.generated.resources.Premium
 import speakgenie.composeapp.generated.resources.Res
 
 @Composable
-fun BottomNavigationBar() {
-    var selectedIndex by remember { mutableStateOf(0) }
+fun BottomNavigationBar(navController: NavController = rememberNavController()) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -36,26 +38,50 @@ fun BottomNavigationBar() {
             BottomNavItem(
                 icon = Res.drawable.Home,
                 label = "Home",
-                isSelected = selectedIndex == 0,
-                onClick = { selectedIndex = 0 }
+                isSelected = currentRoute == Screen.Home.route,
+                onClick = {
+                    if (currentRoute != Screen.Home.route) {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Home.route) { inclusive = true }
+                        }
+                    }
+                }
             )
             BottomNavItem(
                 icon = Res.drawable.Learn,
                 label = "Learn",
-                isSelected = selectedIndex == 1,
-                onClick = { selectedIndex = 1 }
+                isSelected = currentRoute == Screen.Learn.route,
+                onClick = {
+                    if (currentRoute != Screen.Learn.route) {
+                        navController.navigate(Screen.Learn.route) {
+                            popUpTo(Screen.Home.route)
+                        }
+                    }
+                }
             )
             BottomNavItem(
                 icon = Res.drawable.Premium,
                 label = "Membership",
-                isSelected = selectedIndex == 2,
-                onClick = { selectedIndex = 2 }
+                isSelected = currentRoute == Screen.Membership.route,
+                onClick = {
+                    if (currentRoute != Screen.Membership.route) {
+                        navController.navigate(Screen.Membership.route) {
+                            popUpTo(Screen.Home.route)
+                        }
+                    }
+                }
             )
             BottomNavItem(
                 icon = Icons.Default.Person,
                 label = "Profile",
-                isSelected = selectedIndex == 3,
-                onClick = { selectedIndex = 3 }
+                isSelected = currentRoute == Screen.Profile.route,
+                onClick = {
+                    if (currentRoute != Screen.Profile.route) {
+                        navController.navigate(Screen.Profile.route) {
+                            popUpTo(Screen.Home.route)
+                        }
+                    }
+                }
             )
         }
     }

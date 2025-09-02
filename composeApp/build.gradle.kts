@@ -44,6 +44,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.navigation.compose)
             implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
+            implementation("com.google.accompanist:accompanist-systemuicontroller:0.36.0")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

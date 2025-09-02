@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,15 +52,23 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
         Lesson(5, "Common Phrases", isCompleted = false, isCurrent = selectedLessonId == 5, isLocked = true)
     )
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Scaffold(
+        bottomBar = {
+            BottomNavigationBar(navController)
+        }
+    ) { innerPadding ->
         Column(
-            modifier = Modifier.fillMaxSize().background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF4CAF50), Color(0xFF2E7D32)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color(0xFF4CAF50),
+                            Color(0xFF2E7D32)
+                        )
                     )
                 )
-            )
+                .padding(innerPadding)
         ) {
             // Top Section with Greeting and Stats
             HeaderSection()
@@ -69,19 +78,24 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
 
             // Main Content Area
             Box(
-                modifier = Modifier.fillMaxSize().background(
-                    Color.White, RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
-                )
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Color.White,
+                        RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+                    )
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp).padding(bottom = 80.dp) // Add bottom padding for nav bar
+                    modifier = Modifier.padding(16.dp)
                 ) {
                     // Main Image - Boy image expanded to fill the whole box
                     Image(
                         painter = painterResource(Res.drawable.boy),
                         contentDescription = "Main Illustration",
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxWidth().height(180.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(180.dp)
                             .clip(RoundedCornerShape(16.dp))
                     )
 
@@ -114,14 +128,6 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
                     }
                 }
             }
-        }
-
-        // Bottom Navigation - positioned at the bottom of the screen
-        Box(
-            modifier = Modifier.fillMaxWidth()
-                .align(androidx.compose.ui.Alignment.BottomCenter)
-        ) {
-            BottomNavigationBar()
         }
     }
 }
