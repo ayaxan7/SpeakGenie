@@ -1,5 +1,6 @@
 package com.ayaan.speakgenie.presentation.homescreen.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +18,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,18 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ayaan.speakgenie.data.Lesson
 import org.jetbrains.compose.resources.painterResource
+import speakgenie.composeapp.generated.resources.LockedPlay
+import speakgenie.composeapp.generated.resources.OngoingImage
 import speakgenie.composeapp.generated.resources.Res
-import speakgenie.composeapp.generated.resources.boy
-import speakgenie.composeapp.generated.resources.lockedplay
-
-//import speakgenie.composeapp.generated.resources.ic_check
-//import speakgenie.composeapp.generated.resources.ic_lock
-//import speakgenie.composeapp.generated.resources.ic_play
-
+import speakgenie.composeapp.generated.resources.completedLesson
 @Composable
 fun LessonItem(
-    lesson: Lesson,
-    selectedLessonId: Int? = null, // Add parameter to track selected lesson
+    lesson: Lesson, selectedLessonId: Int? = null, // Add parameter to track selected lesson
     onClick: (Int) -> Unit = {}
 ) {
     Card(
@@ -63,44 +58,51 @@ fun LessonItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 // Status Icon
-                Box(
-                    modifier = Modifier.size(40.dp).clip(CircleShape).background(
-                        when {
-                            lesson.isCompleted -> Color(0xFF4CAF50)
-                            lesson.isCurrent -> Color(0xFF4CAF50)
-                            lesson.isLocked -> Color.Gray
-                            else -> Color.LightGray
-                        }
-                    ), contentAlignment = Alignment.Center
-                ) {
-                    when {
-                        lesson.isCompleted -> {
-                            Icon(
-                                painter = painterResource(Res.drawable.boy),
-                                contentDescription = "Completed",
-                                tint = Color.White,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-
-                        lesson.isLocked -> {
-                            Icon(
-                                painter = painterResource(Res.drawable.lockedplay),
-                                contentDescription = "Locked",
-                                tint = Color.White,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-
-                        else -> {
-                            Text(
-                                text = lesson.id.toString(),
-                                color = Color.White,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp
-                            )
-                        }
-                    }
+//                Box(
+//                    modifier = Modifier.size(40.dp).clip(CircleShape).background(
+//                        when {
+//                            lesson.isCompleted -> Color(0xFFDDF6EA)
+//                            lesson.isCurrent -> Color(0xFF4CAF50)
+//                            lesson.isLocked -> Color.Gray
+//                            else -> Color.LightGray
+//                        }
+//                    ), contentAlignment = Alignment.Center
+//                ) {
+//                    when {
+//                        lesson.isCompleted -> {}
+//                        lesson.isLocked -> {
+//                            Image(
+//                                painter = painterResource(Res.drawable.lockedplay),
+//                                contentDescription = "Locked",
+//                                modifier = Modifier.size(20.dp),
+//                            )
+//                        }
+//
+//                        else -> {
+//
+//                        }
+//                    }
+//                }
+                if(!lesson.isCompleted && !lesson.isLocked) {
+                    Image(
+                        painter = painterResource(Res.drawable.OngoingImage),
+                        contentDescription = "PlayIcon",
+                        modifier = Modifier.size(56.dp).padding(start = 8.dp)
+                    )
+                }
+                if(lesson.isCompleted){
+                    Image(
+                        painter = painterResource(Res.drawable.completedLesson),
+                        contentDescription = "PlayIcon",
+                        modifier = Modifier.size(56.dp).padding(start = 8.dp)
+                    )
+                }
+                if(lesson.isLocked){
+                    Image(
+                        painter = painterResource(Res.drawable.LockedPlay),
+                        contentDescription = "PlayIcon",
+                        modifier = Modifier.size(56.dp).padding(start = 8.dp)
+                    )
                 }
 
                 Spacer(modifier = Modifier.width(16.dp))
@@ -127,33 +129,20 @@ fun LessonItem(
             // Action Button - Only appears when this lesson is selected and not locked
             if (!lesson.isLocked && selectedLessonId == lesson.id) {
                 Button(
-                    onClick = { onClick(lesson.id) },
-                    colors = ButtonDefaults.buttonColors(
+                    onClick = { onClick(lesson.id) }, colors = ButtonDefaults.buttonColors(
                         containerColor = when {
                             lesson.isCompleted -> Color(0xFF2E7D32) // Dark green for completed
                             lesson.isCurrent -> Color(0xFF4CAF50)   // Regular green for current
                             else -> Color(0xFF66BB6A)               // Light green for not started
                         }
-                    ),
-                    modifier = Modifier.height(36.dp)
+                    ), modifier = Modifier.height(36.dp)
                 ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.boy),
-                        contentDescription = when {
-                            lesson.isCompleted -> "Restart"
-                            else -> "Start"
-                        },
-                        tint = Color.White,
-                        modifier = Modifier.size(16.dp)
-                    )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = when {
                             lesson.isCompleted -> "RESTART"
                             else -> "START"
-                        },
-                        color = Color.White,
-                        fontSize = 14.sp
+                        }, color = Color.White, fontSize = 14.sp
                     )
                 }
             }
