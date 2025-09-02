@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -54,31 +55,19 @@ import androidx.compose.ui.graphics.Brush
 @Composable
 fun MembershipScreen(navController: NavController = rememberNavController()) {
     Scaffold(
-        bottomBar = {
-            BottomNavigationBar(navController)
-        }
+        bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
                     brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Color(0xFF11D677),
-                            Color(0xFF139F5C)
-                        )
+                        colors = listOf(Color(0xFF11D677), Color(0xFF139F5C))
                     )
                 )
                 .padding(innerPadding)
         ) {
-            // Scrollable green content
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-//                    .verticalScroll(rememberScrollState())
-                    .padding(start = 16.dp, end = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Image(
@@ -87,117 +76,131 @@ fun MembershipScreen(navController: NavController = rememberNavController()) {
                     modifier = Modifier.size(48.dp),
                     contentScale = ContentScale.Fit
                 )
+
                 Spacer(modifier = Modifier.height(4.dp))
+
                 Image(
                     painter = painterResource(Res.drawable.gopremium),
                     contentDescription = "Go Premium",
                     modifier = Modifier.fillMaxWidth(0.94f).height(78.dp),
                     contentScale = ContentScale.FillBounds
                 )
-
-                val features = listOf(
-                    FeatureItem(Res.drawable.it1, "24/7 Personal AI Tutor"),
-                    FeatureItem(Res.drawable.it2, "Personalized Learning Journey"),
-                    FeatureItem(Res.drawable.it3, "Unlimited Lessons & Practice"),
-                    FeatureItem(Res.drawable.it4, "Master 100+ Real-Life Scenarios"),
-                    FeatureItem(Res.drawable.it5, "AI-Powered Feedback for Fluency")
-                )
+                Spacer(modifier = Modifier.height(20.dp))
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(),
+                        .height(250.dp)
+                        .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
-                    horizontalAlignment = Alignment.Start
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    items(features) { feature ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .shadow(6.dp, RoundedCornerShape(12.dp), clip = false)
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(Color(0xFF0DBA67))
-                                .padding(vertical = 12.dp, horizontal = 25.dp),
-                            contentAlignment = Alignment.CenterStart
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Start
-                            ) {
-                                Image(
-                                    painter = painterResource(feature.icon),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(22.dp),
-                                    contentScale = ContentScale.Fit
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(
-                                    text = feature.text,
-                                    fontSize = 14.sp,
-                                    color = Color.White,
-                                    textAlign = TextAlign.Start
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-            // White membership section pinned to bottom
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter) // pin to bottom
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
-                    .background(Color.White)
-                    .padding(16.dp)
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.verticalScroll(rememberScrollState())) {
-                    Text(
-                        text = "Membership Plan",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                    val features = listOf(
+                        FeatureItem(Res.drawable.it1, "24/7 Personal AI Tutor"),
+                        FeatureItem(Res.drawable.it2, "Personalized Learning Journey"),
+                        FeatureItem(Res.drawable.it3, "Unlimited Lessons & Practice"),
+                        FeatureItem(Res.drawable.it4, "Master 100+ Real-Life Scenarios"),
+                        FeatureItem(Res.drawable.it5, "AI-Powered Feedback for Fluency")
                     )
 
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        PlanCard(
-                            title = "6 Month Plan",
-                            price = "₹1800",
-                            oldPrice = "₹2100",
-                            monthly = "₹300/-"
-                        )
-
-                        PlanCard(
-                            title = "Annual Plan",
-                            price = "₹3000",
-                            oldPrice = "₹6000",
-                            monthly = "₹250/-",
-                            mostPopular = true
-                        )
+                    items(features) { feature ->
+                        FeatureCard(feature)
                     }
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    Button(
-                        onClick = { /* TODO */ },
-                        modifier = Modifier.fillMaxWidth(.85f).height(50.dp),
-                        shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF11D677))
-                    ) {
-                        Text(
-                            text = "Upgrade to Premium", color = Color.White, fontSize = 16.sp
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(12.dp))
-                    TermsAndPrivacyText()
-                    Spacer(modifier = Modifier.height(20.dp))
                 }
+                Spacer(modifier = Modifier.height(8.dp))
+                MembershipSection()
             }
         }
+    }
+}
+@Composable
+fun FeatureCard(feature: FeatureItem) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(6.dp, RoundedCornerShape(12.dp), clip = false)
+            .clip(RoundedCornerShape(12.dp))
+            .background(Color(0xFF0DBA67))
+            .padding(vertical = 12.dp, horizontal = 25.dp),
+        contentAlignment = Alignment.CenterStart
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Image(
+                painter = painterResource(feature.icon),
+                contentDescription = null,
+                modifier = Modifier.size(22.dp),
+                contentScale = ContentScale.Fit
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = feature.text,
+                fontSize = 14.sp,
+                color = Color.White,
+                textAlign = TextAlign.Start
+            )
+        }
+    }
+}
+
+@Composable
+fun MembershipSection() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+            .background(Color.White)
+            .padding(horizontal = 20.dp, vertical = 16.dp)
+        .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text(
+            text = "Membership Plan",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            PlanCard(
+                title = "6 Month Plan",
+                price = "₹1800",
+                oldPrice = "₹2100",
+                monthly = "₹300/-"
+            )
+            PlanCard(
+                title = "Annual Plan",
+                price = "₹3000",
+                oldPrice = "₹6000",
+                monthly = "₹250/-",
+                mostPopular = true
+            )
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Button(
+            onClick = { /* TODO */ },
+            modifier = Modifier
+                .fillMaxWidth(0.85f)
+                .height(50.dp),
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF11D677))
+        ) {
+            Text("Upgrade to Premium", color = Color.White, fontSize = 16.sp)
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+        TermsAndPrivacyText()
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
