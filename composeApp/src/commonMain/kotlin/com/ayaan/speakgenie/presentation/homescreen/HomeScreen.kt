@@ -47,7 +47,6 @@ import speakgenie.composeapp.generated.resources.fab
 
 @Composable
 fun HomeScreen(navController: NavController = rememberNavController()) {
-    // State to track which lesson is currently selected
     var selectedLessonId by remember { mutableStateOf(2) }
 
     val lessons = listOf(
@@ -67,7 +66,8 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
                 onClick = { /* TODO: Handle FAB click */ },
                 shape = CircleShape,
                 containerColor = Color.Transparent,
-                elevation = FloatingActionButtonDefaults.elevation(0.dp)
+                elevation = FloatingActionButtonDefaults.elevation(0.dp),
+                modifier = Modifier.size(100.dp)
             ) {
                 Image(
                     painter = painterResource(Res.drawable.fab),

@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,56 +33,65 @@ import speakgenie.composeapp.generated.resources.Res
 import speakgenie.composeapp.generated.resources.rightArrow
 
 @Composable
-fun ProfileOptionCard(title: String, subtitle: String, icon: DrawableResource, iconColor: Color) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .border(
-                width = 1.dp,
-                color = Color.Gray, // light gray border
-                shape = RoundedCornerShape(12.dp)
-            )
-            .background(Color.White)
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
-    ) {
-        Box(
+fun ProfileOptionCard(
+    title: String,
+    subtitle: String,
+    icon: DrawableResource,
+    iconColor: Color,
+    isLast: Boolean = false
+) {
+    Column {
+        Row(
             modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape),
-//                .background(iconColor.copy(alpha = 0.2f)),
-            contentAlignment = Alignment.Center
+                .fillMaxWidth()
+                .background(Color.White)
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
         ) {
-            Image(
-                painter = painterResource(icon),
-                contentDescription = null,
-                modifier = Modifier.size(40.dp)
-            )
-        }
-        Spacer(modifier = Modifier.width(16.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = title,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.Black
-            )
-            if(subtitle.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = subtitle,
-                    fontSize = 14.sp,
-                    color = Color.Gray
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painterResource(icon),
+                    contentDescription = null,
+                    modifier = Modifier.size(40.dp)
                 )
             }
+            Spacer(modifier = Modifier.width(16.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = title,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Black
+                )
+                if(subtitle.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = subtitle,
+                        fontSize = 14.sp,
+                        color = Color.Gray
+                    )
+                }
+            }
+            Image(
+                painter = painterResource(Res.drawable.rightArrow),
+                contentDescription = null,
+                modifier = Modifier.size(16.dp)
+            )
         }
-        Image(
-            painter = painterResource(Res.drawable.rightArrow),
-            contentDescription = null,
-            modifier = Modifier.size(16.dp)
-        )
+
+        // Add separator line except for the last item
+        if (!isLast) {
+            HorizontalDivider(
+//                modifier = Modifier.padding(horizontal = 16.dp),
+                thickness = 1.dp,
+                color = Color.LightGray.copy(alpha = 0.5f)
+            )
+        }
     }
 }

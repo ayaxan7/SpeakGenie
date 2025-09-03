@@ -2,6 +2,7 @@ package com.ayaan.speakgenie.presentation.profilescreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,9 +14,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,38 +52,47 @@ import speakgenie.composeapp.generated.resources.trophy
 @Composable
 fun ProfileScreen(navController: NavController = rememberNavController()) {
     Scaffold(
-        topBar = {
-            Box(
-                modifier = Modifier.fillMaxWidth().padding(16.dp).background(Color.White),
-                contentAlignment = Alignment.TopEnd
-            ) {
-                Image(
-                    painter = painterResource(Res.drawable.menu),
-                    contentDescription = "Menu Avatar",
-                    modifier = Modifier.size(36.dp).clip(CircleShape).clickable {
-                        // Handle profile image click
-                    },
-                    contentScale = ContentScale.Crop
-                )
-            }
-        },
         bottomBar = { BottomNavigationBar(navController) },
     ) { innerPadding ->
         Column(
-            modifier = Modifier.padding(innerPadding).fillMaxSize()
-                .background(Color.White), horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .background(Color.White)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // Profile Image
+            // Top section with menu and profile image
             Box(
-                modifier = Modifier.size(100.dp).clip(CircleShape).background(Color(0xFFFFE4EC)),
-                contentAlignment = Alignment.Center
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                contentAlignment = Alignment.TopEnd
             ) {
+                // Profile Image centered
+                Box(
+                    modifier = Modifier
+                        .size(100.dp)
+                        .clip(CircleShape)
+                        .background(Color(0xFFFFE4EC))
+                        .align(Alignment.Center),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(Res.drawable.avatar),
+                        contentDescription = "Profile Avatar",
+                        modifier = Modifier.size(80.dp),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+
+                // Menu icon in top right (unchanged position)
                 Image(
-                    painter = painterResource(Res.drawable.avatar),
-                    contentDescription = "Profile Avatar",
-                    modifier = Modifier.size(80.dp),
+                    painter = painterResource(Res.drawable.menu),
+                    contentDescription = "Menu",
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clickable {
+                            // Handle menu click
+                        },
                     contentScale = ContentScale.Crop
                 )
             }
@@ -89,7 +100,10 @@ fun ProfileScreen(navController: NavController = rememberNavController()) {
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = "Ayesha", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color.Black
+                text = "Ayesha",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -138,6 +152,7 @@ fun ProfileScreen(navController: NavController = rememberNavController()) {
             }
 
             Spacer(modifier = Modifier.height(20.dp))
+
             val options = listOf(
                 ProfileOption(
                     "Manage Membership",
@@ -147,7 +162,8 @@ fun ProfileScreen(navController: NavController = rememberNavController()) {
                 ),
                 ProfileOption(
                     "Student Report",
-                    "", Res.drawable.trophy,
+                    "",
+                    Res.drawable.trophy,
                     Color(0xFFFFC107)
                 ),
                 ProfileOption(
@@ -156,20 +172,44 @@ fun ProfileScreen(navController: NavController = rememberNavController()) {
                     Res.drawable.dice,
                     Color(0xFF9E9E9E)
                 ),
-                ProfileOption("Personal Information", "", Res.drawable.smile, Color(0xFFFFC107)),
-                ProfileOption("Invite Friends", "", Res.drawable.gift, Color(0xFFE91E63))
+                ProfileOption(
+                    "Personal Information",
+                    "",
+                    Res.drawable.smile,
+                    Color(0xFFFFC107)
+                ),
+                ProfileOption(
+                    "Invite Friends",
+                    "",
+                    Res.drawable.gift,
+                    Color(0xFFE91E63)
+                )
             )
+
             // Options Section
-            LazyColumn {
-                items(options) { option ->
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .border(
+                        width = 1.dp,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .background(Color.White)
+            ) {
+                options.forEachIndexed { index, option ->
                     ProfileOptionCard(
                         title = option.title,
                         subtitle = option.subtitle,
                         icon = option.icon,
-                        iconColor = option.iconColor
+                        iconColor = option.iconColor,
+                        isLast = index == options.lastIndex
                     )
                 }
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

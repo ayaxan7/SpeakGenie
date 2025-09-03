@@ -1,10 +1,8 @@
 package com.ayaan.speakgenie.presentation.homescreen.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -22,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -33,6 +29,7 @@ import speakgenie.composeapp.generated.resources.LockedPlay
 import speakgenie.composeapp.generated.resources.OngoingImage
 import speakgenie.composeapp.generated.resources.Res
 import speakgenie.composeapp.generated.resources.completedLesson
+
 @Composable
 fun LessonItem(
     lesson: Lesson, selectedLessonId: Int? = null, // Add parameter to track selected lesson
@@ -57,21 +54,21 @@ fun LessonItem(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if(!lesson.isCompleted && !lesson.isLocked) {
+                if (!lesson.isCompleted && !lesson.isLocked) {
                     Image(
                         painter = painterResource(Res.drawable.OngoingImage),
                         contentDescription = "PlayIcon",
                         modifier = Modifier.size(56.dp).padding(start = 8.dp)
                     )
                 }
-                if(lesson.isCompleted){
+                if (lesson.isCompleted) {
                     Image(
                         painter = painterResource(Res.drawable.completedLesson),
                         contentDescription = "PlayIcon",
                         modifier = Modifier.size(56.dp).padding(start = 8.dp)
                     )
                 }
-                if(lesson.isLocked){
+                if (lesson.isLocked) {
                     Image(
                         painter = painterResource(Res.drawable.LockedPlay),
                         contentDescription = "PlayIcon",
